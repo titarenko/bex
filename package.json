@@ -1,0 +1,38 @@
+{
+  "name": "bex",
+  "version": "0.1.0",
+  "description": "Express app bootstrap utilities.",
+  "main": "index.js",
+  "dependencies": {
+    "bluebird": "^2.9.24",
+    "body-parser": "^1.13.2",
+    "express": "^4.12.3",
+    "lodash": "^3.6.0",
+    "require-all": "^1.1.0"
+  },
+  "homepage": "https://github.com/titarenko/bex",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/titarenko/bex.git"
+  },
+  "keywords": [
+    "express",
+    "web",
+    "bootstrap",
+    "utilities"
+  ],
+  "scripts": {
+    "test": "mocha tests/*"
+  },
+  "author": "Constantin Titarenko",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/titarenko/bex/issues"
+  },
+  "devDependencies": {
+    "mocha": "^2.2.5",
+    "mockery": "^1.4.0",
+    "should": "^7.0.2",
+    "sinon": "^1.15.4"
+  }
+}
