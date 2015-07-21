@@ -22,7 +22,7 @@
     "utilities"
   ],
   "scripts": {
-    "test": "mocha tests/*"
+    "test": "istanbul cover node_modules/mocha/bin/_mocha -- tests && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "author": "Constantin Titarenko",
   "license": "MIT",
@@ -30,6 +30,8 @@
     "url": "https://github.com/titarenko/bex/issues"
   },
   "devDependencies": {
+    "coveralls": "^2.11.3",
+    "istanbul": "^0.3.17",
     "mocha": "^2.2.5",
     "mockery": "^1.4.0",
     "should": "^7.0.2",
