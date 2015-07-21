@@ -53,10 +53,14 @@ module.exports = {
 };
 ```
 
+# Quick notes (on example)
+
 As you probably noted, there are 2 ways of specifying the route-handler pair:
 
 - implicit: via method names like `list` (`GET resource`), `view` (`GET resource/:id`), `create` (`POST resource`), `update` (`PUT resource/:id`) and `remove` (`DELETE resource/:id`)
-- explicit: by specifying exact route (`GET resource/:from/:to`) or exact route with resource name placeholder (`GET &/:id`) where kebab-cased controller's name will be substituted; also, you can omit `GET` verb, it is being used by default (`&/:id` is the same as `GET &/:id` or `get &/:id`)
+- explicit: by specifying exact route (`GET resource/:from/:to`) or exact route with resource name placeholder (`GET &/:id`) where kebab-cased controller's name will be substituted
+
+In case of explicit route, you can omit `GET` verb, it is being used by default (`&/:id` is the same as `GET &/:id` or `get &/:id`).
 
 # What does it do?
 
@@ -80,7 +84,8 @@ There are 2 special results
 
 - `exception` - generated when exception occurs inside route handler (default handler will cause empty response with `500` code)
 - `undefined` - generated when no view result is returned from route handler (its default handler will cause empty response with `404` status)
-- you can override how `bex` reacts to these 2 special results via overwriting their handlers: `bex.registerHandler('exception', function (req, res, exception) { logstash.send(req.url, exception); }, true);`
+
+You can override how `bex` reacts to these 2 special results (as well as other "ordinary" results) via overwriting their handlers: `bex.registerHandler('exception', function (req, res, exception) { logstash.send(req.url, exception); }, true);`.
 
 # Few words regarding hooks
 
