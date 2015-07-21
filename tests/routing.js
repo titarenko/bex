@@ -93,6 +93,16 @@ describe('routing', function () {
 			routing.createHandler(method)(req, res);
 			method.firstCall.args.slice(1).should.eql([req, res]);
 		});
+		it('should pass req, res and result args to success handler', function () {
+			var req = {}, res = {}, result = { type: 'unique1' }, method = sinon.stub().returns(result);
+			routing.createHandler(method)(req, res);
+			handlingMock.handleResult.args.should.containEql([req, res, result]);
+		});
+		it('should pass req, res and result args to exception handler', function () {
+			var req = {}, res = {}, exception = new Error('unique2'), method = sinon.stub().throws(exception);
+			routing.createHandler(method)(req, res);
+			handlingMock.handleException.args.should.containEql([req, res, exception]);
+		});
 	});
 	describe('createRouter', function () {
 		var controllers = {

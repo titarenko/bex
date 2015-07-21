@@ -49,11 +49,14 @@ function createRouter (controllers) {
 
 function createHandler (method) {
 	return function routeHandler (req, res) {
-		Promise.try(function () {
-			var context = handling.buildContext(req, res);
-			var params = _.extend({}, req.files, req.query, req.params, req.body);
-			return method.call(context, params, req, res);
-		}).then(handling.handleResult).catch(handling.handleException);
+		Promise
+			.try(function () {
+				var context = handling.buildContext(req, res);
+				var params = _.extend({}, req.files, req.query, req.params, req.body);
+				return method.call(context, params, req, res);
+			})
+			.then(_.partial(handling.handleResult, req, res))
+			.catch(_.partial(handling.handleException, req, res));
 	};
 }
 
