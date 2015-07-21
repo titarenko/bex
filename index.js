@@ -1,4 +1,4 @@
-function __buildModule (requireAll, path, globals, handling, routing) {
+function __buildModule (express, bodyParser, requireAll, path, globals, handling, routing) {
 
 var _ = require('lodash');
 
@@ -24,10 +24,11 @@ function normalizeParams (params) {
 }
 
 function createApp (params) {
+	if (_.isObject(params.globalObj)) {
+		globals = globals.__buildModule(params.globalObj);
+	}
 	globals.init();
 	
-	var express = require('express');
-	var bodyParser = require('body-parser');
 	var app = express();
 	
 	params = normalizeParams(params);
@@ -42,8 +43,8 @@ function createApp (params) {
 	if (_.isString(params.views)) {
 		app.set('views', params.views);
 		if (_.isFunction(params.viewEngine)) {
-			app.engine('html', params.viewEngine);
-			app.set('view engine', 'html');
+			app.engine(params.viewExt || 'html', params.viewEngine);
+			app.set('view engine', params.viewExt || 'html');
 		}
 	}
 
@@ -61,9 +62,11 @@ function createApp (params) {
 
 return _.extend({}, utils, { createApp: createApp });
 
-}
+} // end of __buildModule
 
 module.exports = __buildModule(
+	require('express'),
+	require('body-parser'),
 	require('require-all'),
 	require('path'),
 	require('./globals'),

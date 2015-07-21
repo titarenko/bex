@@ -1,3 +1,5 @@
+function __buildModule () {
+
 var _ = require('lodash');
 
 var results = {
@@ -64,10 +66,15 @@ function buildContext (req, res) {
 	return _.extend({ user: req.user }, results);
 }
 
-module.exports = {
+return {
 	buildContext: buildContext,
 	registerResult: _.partial(register, 'result'),
 	registerHandler: _.partial(register, 'handler'),
 	handleResult: handleResult,
 	handleException: handleException
 };
+
+} // end of __buildModule
+
+module.exports = __buildModule();
+module.exports.__buildModule = __buildModule;

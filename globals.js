@@ -1,15 +1,17 @@
+function __buildModule (globalObj) {
+
 var _ = require('lodash');
 
 function init () {
 	var keys = ['_', 'Promise', '$'];
 	keys.forEach(function (key) {
-		if (global[key]) {
+		if (globalObj[key]) {
 			throw new Error('Can not overwrite "' + key + '"!');
 		}
 	});
 	var values = [_, require('bluebird'), {}];
 	_.each(keys, function (key, index) {
-		global[key] = values[index];
+		globalObj[key] = values[index];
 	});
 }
 
@@ -25,7 +27,12 @@ function register (name, value) {
 	});
 }
 
-module.exports = {
+return {
 	init: init,
 	register: register
 };
+
+} // end of __buildModule
+
+module.exports = __buildModule(global);
+module.exports.__buildModule = __buildModule;

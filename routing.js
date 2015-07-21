@@ -59,6 +59,7 @@ function createHandler (method) {
 
 return {
 	parseRoute: parseRoute,
+	createHandler: createHandler,
 	createRouter: createRouter
 };
 

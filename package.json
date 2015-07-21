@@ -33,7 +33,6 @@
     "coveralls": "^2.11.3",
     "istanbul": "^0.3.17",
     "mocha": "^2.2.5",
-    "mockery": "^1.4.0",
     "should": "^7.0.2",
     "sinon": "^1.15.4"
   }

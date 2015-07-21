@@ -1,13 +1,15 @@
 var should = require('should');
 var sinon = require('sinon');
-var handling = require('../handling');
+var _ = require('lodash');
+var handling = require('../handling').__buildModule();
 
 describe('handling', function () {
 	describe('buildContext', function () {
 		it('should return context with user object taken from request', function () {
 			var req = { user: { id: 10 }, stuff: {} };
-			handling.buildContext(req, {}).should.containEql({ user: req.user });
-			handling.buildContext(req, {}).should.not.containEql({ stuff: req.stuff });
+			var context = handling.buildContext(req);
+			context.should.containEql(_.pick(req, 'user'));
+			context.should.not.containEql(_.pick(req, 'stuff'));
 		});
 		it('should return context with view result builder', function () {
 			handling.buildContext({}, {}).view.should.be.Function();
@@ -19,8 +21,9 @@ describe('handling', function () {
 			handling.buildContext({}, {}).json.should.be.Function();
 		});
 		it('should return context with registered custom result builder', function () {
-			handling.registerResult('foobar', function () {});
-			handling.buildContext({}, {}).foobar.should.be.Function();
+			var foobar = function () {};
+			handling.registerResult('foobar', foobar);
+			handling.buildContext({}, {}).foobar.should.equal(foobar);
 		});
 	});
 	describe('registerResult', function () {
@@ -37,6 +40,15 @@ describe('handling', function () {
 				handling.registerResult('myresult', function () {}, true);	
 			});
 		});
+		it('should allow to register multiple results', function () {
+			var results = {
+				r1: function () {},
+				r2: function () {}
+			};
+			handling.registerResult(results);
+			var context = handling.buildContext({}, {});
+			context.should.containEql(results);
+		});
 	});
 	describe('registerHandler', function () {
 		before(function () {
@@ -51,6 +63,17 @@ describe('handling', function () {
 			should.doesNotThrow(function () {
 				handling.registerHandler('myresult', function () {}, true);	
 			});
+		});
+		it('should allow to register multiple handlers', function () {
+			var handlers = {
+				h1: sinon.spy(),
+				h2: sinon.spy()
+			};
+			handling.registerHandler(handlers);
+			handling.handleResult({}, {}, { type: 'h1' });
+			handling.handleResult({}, {}, { type: 'h2' });
+			handlers.h1.callCount.should.eql(1);
+			handlers.h2.callCount.should.eql(1);
 		});
 	});
 	describe('results', function () {
