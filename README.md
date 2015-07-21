@@ -69,7 +69,7 @@ In case of explicit route, you can omit `GET` verb, it is being used by default 
 - calls hook (`before`), if it is passed via `hooks` param
 - sets `'trust proxy'` to `true` (*very* often `node.js` app is hosted behind `nginx`)
 - initializes view-related stuff, can be omitted by specifying `views: false`
-- initializes `body-parser` (almost *every* express project needs this)
+- initializes `body-parser` (almost *every* `express.js`-based project needs this)
 - creates router based on controllers modules (see example), can be omitted, if no `controllers` param is passed
 - calls hook (`after`), if it is passed via `hooks` param
 
