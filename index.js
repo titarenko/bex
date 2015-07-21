@@ -1,9 +1,6 @@
+function __buildModule (requireAll, path, globals, handling, routing) {
+
 var _ = require('lodash');
-var requireAll = require('require-all');
-var path = require('path');
-var globals = require('./globals');
-var handling = require('./handling');
-var routing = require('./routing');
 
 var utils = {
 	requireAll: requireAll,
@@ -62,4 +59,16 @@ function createApp (params) {
 	return app;
 }
 
-module.exports = _.extend({}, utils, { createApp: createApp });
+return _.extend({}, utils, { createApp: createApp });
+
+}
+
+module.exports = __buildModule(
+	require('require-all'),
+	require('path'),
+	require('./globals'),
+	require('./handling'),
+	require('./routing')
+);
+
+module.exports.__buildModule = __buildModule;

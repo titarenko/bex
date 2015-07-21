@@ -1,8 +1,7 @@
-var express = require('express');
+function __buildModule (express, requireAll, handling) {
+
 var _ = require('lodash');
 var Promise = require('bluebird');
-var requireAll = require('require-all');
-var handling = require('./handling');
 
 var crudMethods = {
 	create: 'post &',
@@ -58,7 +57,17 @@ function createHandler (method) {
 	};
 }
 
-module.exports = {
+return {
 	parseRoute: parseRoute,
 	createRouter: createRouter
 };
+
+} // end of __buildModule
+
+module.exports = __buildModule(
+	require('express'),
+	require('require-all'),
+	require('./handling')
+);
+
+module.exports.__buildModule = __buildModule;
