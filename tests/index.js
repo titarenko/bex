@@ -11,10 +11,6 @@ var bodyParserMock = {
 	json: sinon.spy()
 };
 var requireAllMock = sinon.spy();
-var globalsMock = {
-	init: sinon.spy(),
-	register: sinon.spy()
-};
 var handlingMock = {
 	registerResult: sinon.spy(),
 	registerHandler: sinon.spy()
@@ -27,25 +23,12 @@ var bex = require('../').__buildModule(
 	bodyParserMock,
 	requireAllMock,
 	require('path'),
-	globalsMock,
 	handlingMock,
 	routingMock
 );
 
 describe('bex', function () {
 	describe('createApp', function () {
-		it('should init globals', function () {
-			globalsMock.init = sinon.spy();
-			bex.createApp({});
-			globalsMock.init.calledOnce.should.be.true();
-		});
-		it('should init non-global globals (via globalObj, if provided)', function () {
-			globalsMock.__buildModule = sinon.stub().returns(globalsMock);
-			var globalObj = {};
-			bex.createApp({ globalObj: globalObj });
-			globalsMock.__buildModule.calledOnce.should.be.true();
-			globalsMock.__buildModule.getCall(0).args.should.eql([globalObj]);
-		});
 		it('should use basedir to infer controllers and views location', function () {
 			bex.createApp({ basedir: 'mydir/mysubdir' });
 			routingMock.createRouter.args.should.containEql(['mydir/mysubdir/controllers']);

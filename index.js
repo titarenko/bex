@@ -1,10 +1,9 @@
-function __buildModule (express, bodyParser, requireAll, path, globals, handling, routing) {
+function __buildModule (express, bodyParser, requireAll, path, handling, routing) {
 
 var _ = require('lodash');
 
 var utils = {
 	requireAll: requireAll,
-	registerGlobal: globals.register,
 	registerResult: handling.registerResult,
 	registerHandler: handling.registerHandler,
 	createRouter: routing.createRouter
@@ -24,11 +23,6 @@ function normalizeParams (params) {
 }
 
 function createApp (params) {
-	if (_.isObject(params.globalObj)) {
-		globals = globals.__buildModule(params.globalObj);
-	}
-	globals.init();
-	
 	var app = express();
 	
 	params = normalizeParams(params);
@@ -48,8 +42,8 @@ function createApp (params) {
 		}
 	}
 
-	app.use(bodyParser.urlencoded({ extended: false }));
-	app.use(bodyParser.json());
+	app.use(bodyParser.urlencoded(_.extend({ extended: false }, params.bodyParser)));
+	app.use(bodyParser.json(params.bodyParser));
 
 	if (_.isString(params.controllers)) {
 		app.use(routing.createRouter(params.controllers));
@@ -69,7 +63,6 @@ module.exports = __buildModule(
 	require('body-parser'),
 	require('require-all'),
 	require('path'),
-	require('./globals'),
 	require('./handling'),
 	require('./routing')
 );

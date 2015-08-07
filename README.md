@@ -18,16 +18,18 @@ npm i bex --save
 
 ```js
 var config = require('./config').web;
+var ong = require('ong').init();
 
 require('bex').createApp({
 	basedir: __dirname,
+	bodyParser: { limit: '1mb' },
 	viewEngine: require('express-dot').__express,
 	hooks: { after: initialize }
 }).listen(config.port);
 
 function initialize (app) {
-	this.registerGlobal('db', require('knex')(config.db));
-	this.registerGlobal(this.requireAll(__dirname + '/modules'));
+	ong.register('db', require('knex')(config.db));
+	ong.register(this.requireAll(__dirname + '/modules'));
 }
 ```
 
@@ -64,7 +66,6 @@ In case of explicit route, you can omit `GET` verb, it is being used by default 
 
 # What does it do?
 
-- registers global variables (yes, global, because they are *very* intensively used): `Promise` (bluebird), `_` (lodash), `$` (shortcuts object), **can be omitted** by specifying `globalObj: {}`
 - creates `express.js` app
 - calls hook (`before`), if it is passed via `hooks` param
 - sets `'trust proxy'` to `true` (*very* often `node.js` app is hosted behind `nginx`)
@@ -90,17 +91,13 @@ You can override how `bex` reacts to these 2 special results (as well as other "
 # Few words regarding hooks
 
 - there are 2 hooks: `before` (called just after `express.js` app is created, but nothing was performed with it) and `after` (called after everything is done and `bex` is ready to return bootstrapped app)
-- each hook will have `this` populated with utility methods: `requireAll`, `registerGlobal`, `registerResult`, `registerHandler`, `createRouter`
+- each hook will have `this` populated with utility methods: `requireAll`, `registerResult`, `registerHandler`, `createRouter`
 
 # Utility methods
 
 ## requireAll(path)
 
 Requires all modules which exist inside specified folder (see [require-all](https://www.npmjs.com/package/require-all) docs for details).
-
-## registerGlobal(name, value, [overwrite]) or registerGlobal(nameValueObject, [overwrite])
-
-Registers `name` property of global `$` with `value`. Also can be called with 1 argument of type object, each property-value pair of it will be treated as `name`-`value` pair. There is also additional last argument which specifies whether previous value can be overwritten if exists (by default `bex` will throw if such name is already registered).
 
 ## regiserResult(name, value, [overwrite]) or registerResult(nameValueObject, [overwrite])
 
