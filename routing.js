@@ -4,11 +4,11 @@ var _ = require('lodash');
 var Promise = require('bluebird');
 
 var crudMethods = {
-	create: 'post &',
-	update: 'put &/:id',
-	list: 'get &',
-	view: 'get &/:id',
-	remove: 'delete &/:id'
+	create: 'post /&',
+	update: 'put /&/:id',
+	list: 'get /&',
+	view: 'get /&/:id',
+	remove: 'delete /&/:id'
 };
 
 function parseRoute (controllerName, routeOrMethodName) {

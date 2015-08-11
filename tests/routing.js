@@ -19,31 +19,31 @@ describe('routing', function () {
 		it('should parse implicit CRUD create route', function () {
 			routing.parseRoute('my-controller', 'create').should.eql({
 				method: 'post',
-				path: 'my-controller'
+				path: '/my-controller'
 			});
 		});
 		it('should parse implicit CRUD view route', function () {
 			routing.parseRoute('my-controller', 'view').should.eql({
 				method: 'get',
-				path: 'my-controller/:id'
+				path: '/my-controller/:id'
 			});
 		});
 		it('should parse implicit CRUD list route', function () {
 			routing.parseRoute('my-controller', 'list').should.eql({
 				method: 'get',
-				path: 'my-controller'
+				path: '/my-controller'
 			});
 		});
 		it('should parse implicit CRUD update route', function () {
 			routing.parseRoute('my-controller', 'update').should.eql({
 				method: 'put',
-				path: 'my-controller/:id'
+				path: '/my-controller/:id'
 			});
 		});
 		it('should parse implicit CRUD delete route', function () {
 			routing.parseRoute('my-controller', 'remove').should.eql({
 				method: 'delete',
-				path: 'my-controller/:id'
+				path: '/my-controller/:id'
 			});
 		});
 		it('should parse explicit route', function () {
@@ -133,7 +133,7 @@ describe('routing', function () {
 				myController1: { create: function () {} }
 			});
 			router.should.equal(routerMock);
-			routerMock.post.firstCall.args.should.containEql('my-controller-1');
+			routerMock.post.firstCall.args.should.containEql('/my-controller-1');
 			delete routerMock.post;
 		});
 		it('should bind list CRUD method to correct route', function () {
@@ -142,7 +142,7 @@ describe('routing', function () {
 				myController1: { list: function () {} }
 			});
 			router.should.equal(routerMock);
-			routerMock.get.firstCall.args.should.containEql('my-controller-1');
+			routerMock.get.firstCall.args.should.containEql('/my-controller-1');
 			delete routerMock.get;
 		});
 		it('should bind view CRUD method to correct route', function () {
@@ -151,7 +151,7 @@ describe('routing', function () {
 				myController1: { view: function () {} }
 			});
 			router.should.equal(routerMock);
-			routerMock.get.firstCall.args.should.containEql('my-controller-1/:id');
+			routerMock.get.firstCall.args.should.containEql('/my-controller-1/:id');
 			delete routerMock.get;
 		});
 		it('should bind update CRUD method to correct route', function () {
@@ -160,7 +160,7 @@ describe('routing', function () {
 				myController1: { update: function () {} }
 			});
 			router.should.equal(routerMock);
-			routerMock.put.firstCall.args.should.containEql('my-controller-1/:id');
+			routerMock.put.firstCall.args.should.containEql('/my-controller-1/:id');
 			delete routerMock.put;
 		});
 		it('should bind remove CRUD method to correct route', function () {
@@ -169,7 +169,7 @@ describe('routing', function () {
 				myController1: { remove: function () {} }
 			});
 			router.should.equal(routerMock);
-			routerMock['delete'].firstCall.args.should.containEql('my-controller-1/:id');
+			routerMock['delete'].firstCall.args.should.containEql('/my-controller-1/:id');
 			delete routerMock['delete'];
 		});
 		it('should bind explicit route handler to correct route', function () {

@@ -1,6 +1,6 @@
 {
   "name": "bex",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Express.js application bootstrapper. Simplicity, brevity, flexibility.",
   "main": "index.js",
   "dependencies": {
