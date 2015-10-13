@@ -9,6 +9,9 @@ var results = {
 	redirect: function (url) {
 		return { type: 'redirect', url: url };
 	},
+	empty: function () { 
+		return { type: 'empty' };
+	},
 	json: function (pojo) {
 		return { type: 'json', pojo: pojo };
 	}
@@ -25,12 +28,13 @@ var handlers = {
 		res.json(result.pojo);
 	},
 	exception: function (req, res, result) {
-		res.status(500);
-		res.end();
+		res.status(500).end();
+	},
+	empty: function (req, res) {
+		res.status(200).end();
 	},
 	undefined: function (req, res, result) {
-		res.status(404);
-		res.end();
+		res.status(404).end();
 	}
 };
 
