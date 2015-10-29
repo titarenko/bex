@@ -145,7 +145,7 @@ describe('handling', function () {
 			handler.firstCall.args.should.eql([{}, {}, { type: 'custom', a: 'q' }]);
 		});
 		it('should handle undefined result', function () {
-			var res = { status: sinon.spy(), end: sinon.spy() };
+			var res = { status: sinon.stub().returns({ end: sinon.spy() }) };
 			handling.handleResult({}, res);
 			res.status.callCount.should.eql(1);
 			res.status.firstCall.args.should.eql([404]);
@@ -153,7 +153,7 @@ describe('handling', function () {
 	});
 	describe('handleException', function () {
 		it('should handle exception', function () {
-			var res = { status: sinon.spy(), end: sinon.spy() };
+			var res = { status: sinon.stub().returns({ end: sinon.spy() }) };
 			handling.handleException({}, res);
 			res.status.callCount.should.eql(1);
 			res.status.firstCall.args.should.eql([500]);
