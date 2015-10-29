@@ -14,6 +14,9 @@ var results = {
 	},
 	json: function (pojo) {
 		return { type: 'json', pojo: pojo };
+	},
+	stream: function (stream, type, disposition) {
+		return { type: 'stream', stream: stream, type: type, disposition: disposition };
 	}
 };
 
@@ -32,6 +35,15 @@ var handlers = {
 	},
 	empty: function (req, res) {
 		res.status(200).end();
+	},
+	stream: function (req, res, result) {
+		if (result.type) {
+			res.set('Content-Type', result.type);
+		}
+		if (result.disposition) {
+			res.set('Content-Disposition', result.disposition);
+		}
+		result.stream.pipe(res);
 	},
 	undefined: function (req, res, result) {
 		res.status(404).end();
