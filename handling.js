@@ -15,8 +15,8 @@ var results = {
 	json: function (pojo) {
 		return { type: 'json', pojo: pojo };
 	},
-	stream: function (stream, type, disposition) {
-		return { type: 'stream', stream: stream, type: type, disposition: disposition };
+	stream: function (stream, contentType, contentDisposition) {
+		return { type: 'stream', stream: stream, contentType: contentType, contentDisposition: contentDisposition };
 	}
 };
 
@@ -37,11 +37,11 @@ var handlers = {
 		res.status(200).end();
 	},
 	stream: function (req, res, result) {
-		if (result.type) {
-			res.set('Content-Type', result.type);
+		if (result.contentType) {
+			res.set('Content-Type', result.contentType);
 		}
-		if (result.disposition) {
-			res.set('Content-Disposition', result.disposition);
+		if (result.contentDisposition) {
+			res.set('Content-Disposition', result.contentDisposition);
 		}
 		result.stream.pipe(res);
 	},
